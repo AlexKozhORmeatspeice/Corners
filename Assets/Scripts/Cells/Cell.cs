@@ -3,16 +3,26 @@ using System.Collections.Generic;
 using Assets.Scripts.Cells;
 using Assets.Scripts.Pool;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Cell : MonoBehaviour, IPooledObj
 {
     public TypeOfCell typeOfCell = TypeOfCell.White;
     
+    public bool hasFigure;
     public void OnObjectSpawn()
     {
-        //nothing
+        hasFigure = false;
     }
 
+    private void Update()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector3.forward);
+
+        hasFigure = hit.transform.GetComponent<Figure>();
+    }
+    
+    
     public void SetColor(TypeOfCell color)
     {
         typeOfCell = color;

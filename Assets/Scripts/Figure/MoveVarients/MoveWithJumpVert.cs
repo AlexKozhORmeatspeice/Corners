@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Figure;
 using UnityEngine;
 
@@ -20,16 +21,34 @@ public class MoveWithJumpVert : IMovableFigure
     public void Move(Vector3 target)
     {
         Vector3 direction = target - figureTransform.position;
-        
-        RaycastHit2D hit = Physics2D.Raycast(figureTransform.position ,direction);
-        
-        Debug.Log(direction);
+        direction.z = 0;
 
-        if (Vector2.Distance(figureTransform.position, target) <= distToMove)
+        float distance = Vector2.Distance((Vector2) figureTransform.transform.position, target);
+        
+        if (distance >= distToMove)
+        { 
+            //vert move
+            RaycastHit2D[] hits = Physics2D.RaycastAll((Vector2)figureTransform.position, direction, distToMove);
+
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform != figureTransform && hit.transform.GetComponent<Figure>())
+                {
+                    if (direction.x != 0 && direction.y != 0 && distance <= distToMove * 2)
+                    {
+                        figureTransform.transform.position = target;
+                    }
+                    break;
+                }
+            }
+            
+        } 
+        else
         {
+            //simple move
             figureTransform.position = target;
         }
-        
+
         
     }
 }

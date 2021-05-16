@@ -23,7 +23,7 @@ public class Figure : MonoBehaviour, IPooledObj
         mainCamera = Camera.main;
         active = false;
         
-        moveBehavior = new MoveWithJumpVert(transform, speed);
+        moveBehavior = new MoveWithJumpVertNHoriz(this.transform, speed);
     }
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class Figure : MonoBehaviour, IPooledObj
                 
                 Cell cell = hit.transform.gameObject.GetComponent<Cell>();
 
-                if (cell)
+                if (cell && !cell.hasFigure)
                 {
                     Move(cell.gameObject.transform.position);
                 }

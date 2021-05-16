@@ -37,8 +37,10 @@ public class PlayerController : MonoBehaviour
             {
                 Figure figure = hit.transform.gameObject.GetComponent<Figure>();
 
+                
                 if (figure)
                 {
+                    
                     activeCheckFigureStatus = false;
                     figure.SetActiveStatus(true);
                 }
