@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Cells;
+using Assets.Scripts.Figure;
 using Assets.Scripts.Pool;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -10,6 +11,10 @@ public class Cell : MonoBehaviour, IPooledObj
     public TypeOfCell typeOfCell = TypeOfCell.White;
     
     public bool hasFigure;
+
+    private bool isStartCell;
+
+    private PlayerTypes _typeOfWinPlayerCell;
     public void OnObjectSpawn()
     {
         hasFigure = false;
@@ -21,7 +26,6 @@ public class Cell : MonoBehaviour, IPooledObj
 
         hasFigure = hit.transform.GetComponent<Figure>();
     }
-    
     
     public void SetColor(TypeOfCell color)
     {

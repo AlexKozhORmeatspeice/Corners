@@ -14,16 +14,32 @@ public class Figure : MonoBehaviour, IPooledObj
     private IMovableFigure moveBehavior;
 
     private Camera mainCamera;
-
     private Color _startColor;
+
+    public PlayerTypes FigureType;
+
+
     // Start is called before the first frame update
     public void OnObjectSpawn()
     {
         _startColor = GetComponentInChildren<SpriteRenderer>().color;
         mainCamera = Camera.main;
         active = false;
-        
-        moveBehavior = new MoveWithJumpVertNHoriz(this.transform, speed);
+
+        switch (FiguresController.instance.MoveFiguresTypes)
+        {
+            case MoveFiguresTypes.VertMove:
+                SetWalkBehavior(new MoveWithJumpVert(this.transform, speed));
+                break;
+            
+            case MoveFiguresTypes.OneCellMove:
+                SetWalkBehavior(new MoveOnOneCell(this.transform, speed));
+                break;
+            
+            case MoveFiguresTypes.HorAndVertMove:
+                SetWalkBehavior(new MoveWithJumpVertNHoriz(this.transform, speed));
+                break;
+        }
     }
 
     // Update is called once per frame
@@ -36,7 +52,7 @@ public class Figure : MonoBehaviour, IPooledObj
             if (hit)
             {
                 Figure figure = hit.transform.gameObject.GetComponent<Figure>();
-                if (figure)
+                if (figure && figure.FigureType == FiguresController.instance.NowActiveFigure)
                 {
                     this.SetActiveStatus(false);
                     figure.SetActiveStatus(true);
@@ -59,8 +75,22 @@ public class Figure : MonoBehaviour, IPooledObj
         PlayerController.instance.activeCheckFigureStatus = true;
 
         moveBehavior.Move(pos);
+        
+        //check changed position figure or not
+        if (transform.position == pos)
+        {
+            if (FigureType == PlayerTypes.FirstPlayer)
+            {
+                FiguresController.instance.NowActiveFigure = PlayerTypes.SecondPlayer;
+            }
+            else
+            {
+                FiguresController.instance.NowActiveFigure = PlayerTypes.FirstPlayer;
+            }
+        }
     }
 
+    
     public void SetWalkBehavior(IMovableFigure movableFigure)
     {
         moveBehavior = movableFigure;

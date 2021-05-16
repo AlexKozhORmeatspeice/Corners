@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,16 +37,21 @@ public class PlayerController : MonoBehaviour
             if (hit)
             {
                 Figure figure = hit.transform.gameObject.GetComponent<Figure>();
-
                 
                 if (figure)
                 {
-                    
-                    activeCheckFigureStatus = false;
-                    figure.SetActiveStatus(true);
+                    if (figure.FigureType == FiguresController.instance.NowActiveFigure)
+                    {
+                        activeCheckFigureStatus = false;
+                        figure.SetActiveStatus(true);
+                    }
                 }
             }
         }
-        
+    }
+    
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }

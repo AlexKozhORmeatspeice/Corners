@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts.Cells;
+using Assets.Scripts.Figure;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +21,8 @@ public class CellController : MonoBehaviour
 
     public float DistBetweenCells => distBetweenCells;
 
-
+    
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -28,8 +30,10 @@ public class CellController : MonoBehaviour
         {
             Instance = this;
         }
-
-
+    }
+    
+    private void Start()
+    {
         int rowAndColumnValue = (int)Mathf.Sqrt(cellsCount); 
         cellsList = new GameObject[rowAndColumnValue,rowAndColumnValue];
         
@@ -40,11 +44,7 @@ public class CellController : MonoBehaviour
         distBetweenCells = cell.GetComponentInChildren<SpriteRenderer>().size.x;
         
         cell.SetActive(false);
-        
-    }
-    
-    private void Start()
-    {
+
         CreatField(cellsCount);
     }
 
@@ -82,6 +82,5 @@ public class CellController : MonoBehaviour
             nowSpawnPos.x = startPos.x;
         }
 
-        StartCoroutine(FiguresController.instance.SpawnFigures());
     }
 }
