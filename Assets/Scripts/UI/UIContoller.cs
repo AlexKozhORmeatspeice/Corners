@@ -15,9 +15,11 @@ public class UIContoller : MonoBehaviour
     [SerializeField]
     private GameObject winGameGM;
 
-
+    private FiguresController _figuresController;
     void Awake()
     {
+        _figuresController = FiguresController.instance;
+
         if (instance == null)
         {
             instance = this;
@@ -33,8 +35,8 @@ public class UIContoller : MonoBehaviour
     
     private void Update()
     {
-        activePlayerText.text = $"Now Active Player: {FiguresController.instance.NowActiveFigure.ToString()} \n" +
-                                $"Now Move Var is {FiguresController.instance.MoveFiguresTypes.ToString()}";
+        activePlayerText.text = $"Now Active Player: {_figuresController.NowActiveFigure.ToString()} \n" +
+                                $"Now Move Var is {_figuresController.MoveFiguresTypes.ToString()}";
     }
 
 
