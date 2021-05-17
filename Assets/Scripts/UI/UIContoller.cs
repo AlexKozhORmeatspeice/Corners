@@ -18,12 +18,16 @@ public class UIContoller : MonoBehaviour
     private FiguresController _figuresController;
     void Awake()
     {
-        _figuresController = FiguresController.instance;
 
         if (instance == null)
         {
             instance = this;
         }
+    }
+
+    void Start()
+    {
+        _figuresController = FiguresController.instance;
     }
     
     public void WinGame(FigureTypes winPlayer)
