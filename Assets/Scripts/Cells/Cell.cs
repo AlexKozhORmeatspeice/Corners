@@ -8,15 +8,21 @@ using UnityEngine.PlayerLoop;
 
 public class Cell : MonoBehaviour, IPooledObj
 {
-    public TypeOfCell typeOfCell = TypeOfCell.White;
-    
+    protected TypeOfCell typeOfCell = TypeOfCell.White;
+
+    public TypeOfCell TypeOfCell => typeOfCell;
+
     public bool hasFigure;
 
     private bool isStartCell;
 
-    private PlayerTypes _typeOfWinPlayerCell;
+    public FigureTypes _typeOfFigureOnCell;
+
+    public FigureTypes TypeOfFigureOnCell => _typeOfFigureOnCell;
+
     public void OnObjectSpawn()
     {
+        _typeOfFigureOnCell = FigureTypes.ZeroFigure;
         hasFigure = false;
     }
 
@@ -25,6 +31,15 @@ public class Cell : MonoBehaviour, IPooledObj
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector3.forward);
 
         hasFigure = hit.transform.GetComponent<Figure>();
+
+        if (hasFigure)
+        {
+            _typeOfFigureOnCell = hit.transform.GetComponent<Figure>().FigureType;
+        }
+        else
+        {
+            _typeOfFigureOnCell = FigureTypes.ZeroFigure;
+        }
     }
     
     public void SetColor(TypeOfCell color)

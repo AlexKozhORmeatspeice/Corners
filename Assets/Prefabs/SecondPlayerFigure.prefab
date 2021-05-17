@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  FigureType: 0
+  figureType: 1
 --- !u!50 &5304649269325043629
 Rigidbody2D:
   serializedVersion: 4

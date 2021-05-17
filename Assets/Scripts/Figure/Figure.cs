@@ -16,7 +16,10 @@ public class Figure : MonoBehaviour, IPooledObj
     private Camera mainCamera;
     private Color _startColor;
 
-    public PlayerTypes FigureType;
+    [SerializeField]
+    private FigureTypes figureType;
+
+    public FigureTypes FigureType => figureType;
 
 
     // Start is called before the first frame update
@@ -50,7 +53,8 @@ public class Figure : MonoBehaviour, IPooledObj
             RaycastHit2D hit = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
             
             if (hit)
-            {
+            { 
+                //if pressed another playable figure set it active
                 Figure figure = hit.transform.gameObject.GetComponent<Figure>();
                 if (figure && figure.FigureType == FiguresController.instance.NowActiveFigure)
                 {
@@ -58,6 +62,8 @@ public class Figure : MonoBehaviour, IPooledObj
                     figure.SetActiveStatus(true);
                 }
                 
+                
+                //move on a selected cell
                 Cell cell = hit.transform.gameObject.GetComponent<Cell>();
 
                 if (cell && !cell.hasFigure)
@@ -77,15 +83,15 @@ public class Figure : MonoBehaviour, IPooledObj
         moveBehavior.Move(pos);
         
         //check changed position figure or not
-        if (transform.position == pos)
+        if ((Vector2)transform.position == (Vector2)pos)
         {
-            if (FigureType == PlayerTypes.FirstPlayer)
+            if (FigureType == FigureTypes.FirstPlayer)
             {
-                FiguresController.instance.NowActiveFigure = PlayerTypes.SecondPlayer;
+                FiguresController.instance.NowActiveFigure = FigureTypes.SecondPlayer;
             }
             else
             {
-                FiguresController.instance.NowActiveFigure = PlayerTypes.FirstPlayer;
+                FiguresController.instance.NowActiveFigure = FigureTypes.FirstPlayer;
             }
         }
     }

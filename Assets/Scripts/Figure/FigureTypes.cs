@@ -1,8 +1,9 @@
 ﻿namespace Assets.Scripts.Figure
 {
-    public enum PlayerTypes
+    public enum FigureTypes
     {
         FirstPlayer,
-        SecondPlayer
+        SecondPlayer,
+        ZeroFigure
     }
 }

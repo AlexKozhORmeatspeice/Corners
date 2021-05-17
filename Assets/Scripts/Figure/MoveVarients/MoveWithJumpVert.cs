@@ -20,6 +20,8 @@ public class MoveWithJumpVert : IMovableFigure
     
     public void Move(Vector3 target)
     {
+        target.z -= 1.0f;
+
         Vector3 direction = target - figureTransform.position;
         direction.z = 0;
 

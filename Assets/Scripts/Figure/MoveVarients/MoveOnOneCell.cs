@@ -19,7 +19,8 @@ public class MoveOnOneCell : IMovableFigure
     
     public void Move(Vector3 target)
     {
-        if (Vector2.Distance(figureTransform.position, target) <= distToMove)
+        target.z -= 1.0f;
+        if (Vector2.Distance(figureTransform.position, target) <= distToMove * 4)
         {
             figureTransform.position = target;
         }

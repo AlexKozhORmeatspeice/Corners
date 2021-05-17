@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Cells;
 using Assets.Scripts.Figure;
 using UnityEngine;
@@ -21,6 +22,8 @@ public class CellController : MonoBehaviour
 
     public float DistBetweenCells => distBetweenCells;
 
+    public List<GameObject> startCellsFirstPl;
+    public List<GameObject> startCellsSecondPl;
     
     
     // Start is called before the first frame update
@@ -46,17 +49,19 @@ public class CellController : MonoBehaviour
         cell.SetActive(false);
 
         CreatField(cellsCount);
+
+        StartCoroutine(CheckStartCells());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void CreatField(int numOfCells)
     {
-        //starting point selection relative to main cam center
+        //starting point selection relative to main cam 
         Vector3 startPos = Camera.main.transform.position;
         
         startPos.y -= Mathf.Floor( Mathf.Sqrt(numOfCells) / 2 * distBetweenCells);
@@ -82,5 +87,23 @@ public class CellController : MonoBehaviour
             nowSpawnPos.x = startPos.x;
         }
 
+    }
+
+    private IEnumerator CheckStartCells()
+    {
+        if (startCellsFirstPl.Count != 0 && startCellsFirstPl.All(x 
+            => x.GetComponent<Cell>().TypeOfFigureOnCell == FigureTypes.SecondPlayer) )
+        {
+            UIContoller.instance.WinGame(FigureTypes.SecondPlayer);
+        }
+
+        if (startCellsSecondPl.Count != 0 && startCellsSecondPl.All(x 
+            => x.GetComponent<Cell>().TypeOfFigureOnCell == FigureTypes.FirstPlayer) )
+        {
+            UIContoller.instance.WinGame(FigureTypes.FirstPlayer);
+        }
+        
+        yield return new WaitForSeconds(1.0f);
+        StartCoroutine(CheckStartCells());
     }
 }
